@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#FAF7F2">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>우리집 식탁 · 11/16 - 11/22 식단·장보기</title>
+<title>우리집 식탁 v2 · 11/16 - 11/22 식단·장보기</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
@@ -49,6 +49,7 @@ main{padding:14px 14px 8px}
 .meal.pm .slot{color:#3E6547;background:#E7EFE4}
 .menu{font-size:14.5px;font-weight:600;letter-spacing:-.2px;word-break:keep-all}
 .meal.done .menu{color:#B5A896;text-decoration:line-through}
+.muse{font-size:11px;color:#A79A8B;margin-top:3px;word-break:keep-all;line-height:1.4}
 .edit{flex:0 0 34px;border:1px solid #EFE4D2;background:#FDF9F2;border-radius:10px;font-size:15px;height:34px}
 .chips{display:flex;gap:6px;overflow-x:auto;padding:10px 0 4px;scrollbar-width:none}
 .chips::-webkit-scrollbar{display:none}
@@ -161,16 +162,16 @@ textarea#copyText{width:100%;height:220px;border:1.5px solid #E4D9C8;border-radi
 <div id="modal" class="hidden"><div class="mbox" id="modalBox"></div></div>
 <script>
 'use strict';
-var KEY='woori_table_soonjung_v1';
-var CATS=['육류·계란','채소·두부·과일','간편·양념·면류','유제품·간식','기타'];
-var CAT_COLORS={'육류·계란':'#BF5B2C','채소·두부·과일':'#4D7A58','간편·양념·면류':'#C08A2E','유제품·간식':'#7C6BA8','기타':'#9A8F80'};
+var KEY='woori_table_soonjung_v2';
+var CATS=['육류·계란','채소·두부·과일','간편·양념·면류','유제품·간식','생활·기타'];
+var CAT_COLORS={'육류·계란':'#BF5B2C','채소·두부·과일':'#4D7A58','간편·양념·면류':'#C08A2E','유제품·간식':'#7C6BA8','생활·기타':'#8B7E6A'};
 var STORES=['오아시스','B마트','푸른숲','딩동','기타'];
 var QUICK_STORES=['오아시스','B마트','푸른숲','딩동','동네마트'];
 var DAYS=[['월','11/16'],['화','11/17'],['수','11/18'],['목','11/19'],['금','11/20'],['토','11/21'],['일','11/22']];
-var SEED={"meta": {"week": "11/16 - 11/22", "household": "성인 2 + 초등 1 (3인)"}, "meals": [{"id": "m1", "day": 0, "slot": "am", "menu": "시리얼 + 우유 + 바나나", "cost": 4950, "done": true}, {"id": "m2", "day": 0, "slot": "pm", "menu": "차돌박이 갈비탕", "cost": 18500, "done": false}, {"id": "m3", "day": 1, "slot": "am", "menu": "유부초밥 패밀리세트 + 된장국 + 방울토마토", "cost": 5800, "done": false}, {"id": "m4", "day": 1, "slot": "pm", "menu": "제육볶음 + 콩나물무침 + 미역국", "cost": 16800, "done": false}, {"id": "m5", "day": 2, "slot": "am", "menu": "그릭요거트 + 그래놀라 + 사과", "cost": 4600, "done": false}, {"id": "m6", "day": 2, "slot": "pm", "menu": "닭볶음탕 + 계란말이 + 쌀밥", "cost": 14200, "done": false}, {"id": "m7", "day": 3, "slot": "am", "menu": "치즈 계란토스트 + 우유", "cost": 4900, "done": false}, {"id": "m8", "day": 3, "slot": "pm", "menu": "한우 불고기 + 상추쌈 + 된장국", "cost": 24500, "done": false}, {"id": "m9", "day": 4, "slot": "am", "menu": "계란후라이 + 토스트 + 커피", "cost": 3900, "done": false}, {"id": "m10", "day": 4, "slot": "pm", "menu": "들깨칼국수 + 야채튀김", "cost": 11800, "done": false}, {"id": "m11", "day": 5, "slot": "am", "menu": "토마토 스크램블에그 + 샐러드", "cost": 5200, "done": false}, {"id": "m12", "day": 5, "slot": "pm", "menu": "야채김치 볶음밥 + 계란후라이", "cost": 9800, "done": false}, {"id": "m13", "day": 6, "slot": "am", "menu": "바나나 팬케이크 + 우유", "cost": 5400, "done": false}, {"id": "m14", "day": 6, "slot": "pm", "menu": "순두부찌개 + 계란말이 + 쌀밥", "cost": 12300, "done": false}], "inv": [{"id": "i1", "name": "브렌드한우 앞다리 1++(9)등급 불고기용", "spec": "300g (100g×3)", "price": 21261, "cat": "육류·계란", "star": false, "owned": true}, {"id": "i2", "name": "노브랜드 냉동차돌박이 바로구이", "spec": "600g", "price": 16788, "cat": "육류·계란", "star": true, "owned": true}, {"id": "i3", "name": "마니커 무항생제 닭볶음탕", "spec": "1200g", "price": 9524, "cat": "육류·계란", "star": false, "owned": true}, {"id": "i4", "name": "알찬란 (계란)", "spec": "30구", "price": 7837, "cat": "육류·계란", "star": true, "owned": true}, {"id": "i5", "name": "5K프라이스 깐매추리알", "spec": "500g", "price": 4953, "cat": "육류·계란", "star": false, "owned": true}, {"id": "i6", "name": "양파", "spec": "3kg", "price": 8900, "cat": "채소·두부·과일", "star": true, "owned": true}, {"id": "i7", "name": "대파", "spec": "3단", "price": 6900, "cat": "채소·두부·과일", "star": false, "owned": true}, {"id": "i8", "name": "사과 (홍로)", "spec": "5입", "price": 4900, "cat": "채소·두부·과일", "star": true, "owned": true}, {"id": "i9", "name": "방울토마토", "spec": "500g", "price": 3500, "cat": "채소·두부·과일", "star": false, "owned": true}, {"id": "i10", "name": "어린잎채소", "spec": "100g", "price": 2980, "cat": "채소·두부·과일", "star": false, "owned": true}, {"id": "i11", "name": "두부 (찌개용)", "spec": "3매", "price": 2970, "cat": "채소·두부·과일", "star": false, "owned": true}, {"id": "i12", "name": "오이", "spec": "3입", "price": 2400, "cat": "채소·두부·과일", "star": false, "owned": true}, {"id": "i13", "name": "깐마늘", "spec": "200g", "price": 1590, "cat": "채소·두부·과일", "star": false, "owned": true}, {"id": "i14", "name": "무", "spec": "1통", "price": 1390, "cat": "채소·두부·과일", "star": false, "owned": true}, {"id": "i15", "name": "파프리카", "spec": "2입", "price": 1000, "cat": "채소·두부·과일", "star": false, "owned": true}, {"id": "i16", "name": "깻잎", "spec": "30g", "price": 990, "cat": "채소·두부·과일", "star": false, "owned": true}, {"id": "i17", "name": "감귤 (푸른숲 공동구매)", "spec": "3kg", "price": 9900, "cat": "채소·두부·과일", "star": false, "owned": true}, {"id": "i18", "name": "꿀고구마 (푸른숲 공동구매)", "spec": "3kg", "price": 6600, "cat": "채소·두부·과일", "star": false, "owned": true}, {"id": "i19", "name": "고춧가루 (태안산)", "spec": "1kg", "price": 12900, "cat": "간편·양념·면류", "star": true, "owned": true}, {"id": "i20", "name": "올리브유", "spec": "900ml", "price": 12900, "cat": "간편·양념·면류", "star": false, "owned": true}, {"id": "i21", "name": "참기름", "spec": "160ml", "price": 9900, "cat": "간편·양념·면류", "star": false, "owned": true}, {"id": "i22", "name": "들깨가루", "spec": "300g", "price": 8900, "cat": "간편·양념·면류", "star": false, "owned": true}, {"id": "i23", "name": "진간장 (1212)", "spec": "930ml", "price": 4980, "cat": "간편·양념·면류", "star": false, "owned": true}, {"id": "i24", "name": "멸치다시다", "spec": "80g×2", "price": 3600, "cat": "간편·양념·면류", "star": false, "owned": true}, {"id": "i25", "name": "칼국수면", "spec": "900g", "price": 3980, "cat": "간편·양념·면류", "star": false, "owned": true}, {"id": "i26", "name": "토마토소스", "spec": "410g", "price": 3490, "cat": "간편·양념·면류", "star": false, "owned": true}, {"id": "i27", "name": "두반장", "spec": "500g", "price": 2980, "cat": "간편·양념·면류", "star": false, "owned": true}, {"id": "i28", "name": "생면", "spec": "540g", "price": 2880, "cat": "간편·양념·면류", "star": false, "owned": true}, {"id": "i29", "name": "천일염", "spec": "1kg", "price": 1900, "cat": "간편·양념·면류", "star": false, "owned": true}, {"id": "i30", "name": "카레가루", "spec": "200g", "price": 2000, "cat": "간편·양념·면류", "star": false, "owned": true}, {"id": "i31", "name": "후추 (입자)", "spec": "60g", "price": 1775, "cat": "간편·양념·면류", "star": false, "owned": true}, {"id": "i32", "name": "흰우유", "spec": "750ml", "price": 2580, "cat": "유제품·간식", "star": true, "owned": true}, {"id": "i33", "name": "플레인요거트", "spec": "900g", "price": 3980, "cat": "유제품·간식", "star": true, "owned": true}, {"id": "i34", "name": "슬라이스치즈", "spec": "10매", "price": 2180, "cat": "유제품·간식", "star": false, "owned": true}, {"id": "i35", "name": "통밀크래커", "spec": "350g", "price": 1053, "cat": "유제품·간식", "star": false, "owned": true}], "list": [{"id": "l1", "name": "우유", "memo": "시리얼용 · 필수", "store": "오아시스", "star": true, "done": false}, {"id": "l2", "name": "양파", "memo": "닭볶음탕·불고기·짜장", "store": "B마트", "star": true, "done": false}, {"id": "l3", "name": "당근", "memo": "짜장·볶음밥", "store": "푸른숲", "star": false, "done": false}, {"id": "l4", "name": "애호박", "memo": "된장찌개·볶음", "store": "딩동", "star": false, "done": false}, {"id": "l5", "name": "짜장용 돼지고기 (또는 스팸·어묵)", "memo": "금요일 짜장밥", "store": "오아시스", "star": false, "done": false}, {"id": "l6", "name": "김", "memo": "집에 떨어졌을 때", "store": "B마트", "star": false, "done": false}, {"id": "l7", "name": "김치", "memo": "집에 떨어졌을 때", "store": "푸른숲", "star": false, "done": false}], "ledger": [{"id": "e1", "date": "2026-11-16", "store": "오아시스", "item": "주간 정기 장바구니 — 육류·계란 5건", "cat": "육류·계란", "amount": 60363, "qty": 1, "online": true}, {"id": "e2", "date": "2026-11-16", "store": "오아시스", "item": "주간 정기 장바구니 — 채소·두부·과일 11건", "cat": "채소·두부·과일", "amount": 37520, "qty": 1, "online": true}, {"id": "e3", "date": "2026-11-16", "store": "오아시스", "item": "주간 정기 장바구니 — 간편·양념·면류 13건", "cat": "간편·양념·면류", "amount": 72185, "qty": 1, "online": true}, {"id": "e4", "date": "2026-11-16", "store": "오아시스", "item": "주간 정기 장바구니 — 유제품·간식 4건", "cat": "유제품·간식", "amount": 9793, "qty": 1, "online": true}, {"id": "e5", "date": "2026-11-15", "store": "푸른숲", "item": "감귤·고구마 공동구매 (밤 픽업 완료)", "cat": "채소·두부·과일", "amount": 16500, "qty": 1, "online": true}], "orders": [{"name": "오아시스 새벽배송", "sub": "2026년 11월 16일 (월) 주문 · 주간배송 · 성인 2 + 초등 1 (3인)", "badge": "🚚 오늘 19:00 도착 완료", "items": 33, "goods": 197520, "discount": 15209, "points": 2450, "paid": 179861, "pay": "SSGPAY 현대카드 결제", "card": 12590, "save": 12752, "final": 154519}, {"name": "푸른숲 공동구매", "sub": "2026년 11월 15일 (일) 접수 · 밤 픽업 완료", "badge": "✅ 픽업 완료", "items": 2, "goods": 20300, "discount": 3800, "points": 0, "paid": 16500, "pay": "무통장 입금", "card": 0, "save": 0, "final": 16500}]};
+var SEED={"meta": {"week": "11/16 - 11/22", "household": "성인 2 + 초등 1 (3인)"}, "meals": [{"id": "m1", "day": 0, "slot": "am", "menu": "참치마요 주먹밥 + 감자 크림스프", "cost": 7550, "done": false, "use": "참치마요 주먹밥 2입 · 감자 크림스프"}, {"id": "m2", "day": 0, "slot": "pm", "menu": "한우 치마살 구이 + 쌈배추·로메인 쌈 + 된장찌개", "cost": 42250, "done": false, "use": "한우 치마살 · 로메인 ½ · 쌈배추 ½ · 된장 양념장 1회"}, {"id": "m3", "day": 1, "slot": "am", "menu": "그리스 치즈 샐러드 + 방울토마토 + 마늘햄 구이", "cost": 5335, "done": false, "use": "그리스 치즈 ½ · 방울토마토 ½ · 마늘햄"}, {"id": "m4", "day": 1, "slot": "pm", "menu": "김치어묵우동 + 만능 칼어묵 + 오이초무침", "cost": 12410, "done": false, "use": "김치어묵우동 · 칼어묵 · 백오이 1개"}, {"id": "m5", "day": 2, "slot": "am", "menu": "참치마요 주먹밥 + 찜콩 + 찐티보리", "cost": 5860, "done": false, "use": "참치마요 주먹밥 1입 · 찜콩 · 찐티보리 2파우치"}, {"id": "m6", "day": 2, "slot": "pm", "menu": "어묵가득 한입 떡볶이 + 우거지 된장국", "cost": 10800, "done": false, "use": "어묵 떡볶이 · 우거지 ½ · 된장 양념장 1회"}, {"id": "m7", "day": 3, "slot": "am", "menu": "삶은 감자 + 방울토마토 + 찐티보리", "cost": 4770, "done": false, "use": "햇감자 ½ · 방울토마토 ½ · 찐티보리 2파우치"}, {"id": "m8", "day": 3, "slot": "pm", "menu": "황태콩나물국밥 + 쌈배추 겉절이 + 유기농밥", "cost": 12750, "done": false, "use": "황태콩나물국밥 · 쌈배추 ½ · 유기농밥 1개"}, {"id": "m9", "day": 4, "slot": "am", "menu": "감자 샐러드 + 오이무침 + 찐티보리", "cost": 4540, "done": false, "use": "햇감자 ½ · 백오이 1개 · 찐티보리 2파우치"}, {"id": "m10", "day": 4, "slot": "pm", "menu": "로제 파스타 + 그리스 치즈 샐러드 + 소시지 구이", "cost": 15175, "done": false, "use": "로제 파스타 · 그리스 치즈 ½ · 로메인 ½ · 소시지 4개 · 다이제 · 블랙보리 1개"}, {"id": "m11", "day": 5, "slot": "am", "menu": "가츠동 + 참치마요 주먹밥 + 찐티보리", "cost": 9640, "done": false, "use": "가츠동 · 참치마요 주먹밥 1입 · 찐티보리 2파우치"}, {"id": "m12", "day": 5, "slot": "pm", "menu": "우거지 된장찌개 + 쫄깃한 편육 + 유기농밥", "cost": 15530, "done": false, "use": "우거지 ½ · 된장 양념장 1회 · 편육 · 유기농밥 1개 · 오징어다리"}, {"id": "m13", "day": 6, "slot": "am", "menu": "볼로네이즈 스파게티 + 참치마요 주먹밥 + 찐티보리", "cost": 6550, "done": false, "use": "볼로네이즈 스파게티 · 참치마요 주먹밥 1입 · 찐티보리 2파우치"}, {"id": "m14", "day": 6, "slot": "pm", "menu": "소시지 볶음 + 된장찌개 + 유기농밥", "cost": 7490, "done": false, "use": "소시지 4개 · 된장 양념장 1회 · 유기농밥 1개 · 블랙보리 1개"}], "inv": [{"id": "i1", "name": "구운 주먹밥 참치마요", "spec": "100g×5입", "price": 9900, "cat": "간편·양념·면류", "star": true, "owned": true}, {"id": "i2", "name": "우리밀쌀 김치어묵우동", "spec": "650g", "price": 8600, "cat": "간편·양념·면류", "star": true, "owned": true}, {"id": "i3", "name": "고래사 어묵가득 한입 떡볶이", "spec": "", "price": 6900, "cat": "간편·양념·면류", "star": false, "owned": true}, {"id": "i4", "name": "라쿠치나 로제 파스타", "spec": "", "price": 6300, "cat": "간편·양념·면류", "star": false, "owned": true}, {"id": "i5", "name": "국산 데친 우거지", "spec": "", "price": 2300, "cat": "채소·두부·과일", "star": false, "owned": true}, {"id": "i6", "name": "[마이셰프] 현대옥 황태콩나물국밥", "spec": "2인분 705g", "price": 9500, "cat": "간편·양념·면류", "star": true, "owned": true}, {"id": "i7", "name": "오색담은 된장찌개 양념장", "spec": "450g", "price": 11000, "cat": "간편·양념·면류", "star": true, "owned": true}, {"id": "i8", "name": "[오미로스] 그리스 샐러드 치즈", "spec": "150g", "price": 3590, "cat": "유제품·간식", "star": false, "owned": true}, {"id": "i9", "name": "감자 크림스프", "spec": "200g", "price": 3590, "cat": "유제품·간식", "star": false, "owned": true}, {"id": "i10", "name": "무항생제 1++ 한우 치마살", "spec": "200g", "price": 36900, "cat": "육류·계란", "star": true, "owned": true}, {"id": "i11", "name": "국내산 로메인", "spec": "200g", "price": 2600, "cat": "채소·두부·과일", "star": false, "owned": true}, {"id": "i12", "name": "국내산 쌈배추", "spec": "400g 내외", "price": 2600, "cat": "채소·두부·과일", "star": false, "owned": true}, {"id": "i13", "name": "GAP 알찬 대추방울토마토", "spec": "240g", "price": 3100, "cat": "채소·두부·과일", "star": false, "owned": true}, {"id": "i14", "name": "[무농약] 무농약 햇 감자", "spec": "800g", "price": 3680, "cat": "채소·두부·과일", "star": false, "owned": true}, {"id": "i15", "name": "[농할 20%] 국내산 백오이", "spec": "특품 2개", "price": 2640, "cat": "채소·두부·과일", "star": false, "owned": true}, {"id": "i16", "name": "천하장사 오리지널", "spec": "28g×16개입", "price": 7200, "cat": "유제품·간식", "star": false, "owned": true}, {"id": "i17", "name": "3초 완성! 찐티보리", "spec": "25ml×10파우치", "price": 6900, "cat": "유제품·간식", "star": false, "owned": true}, {"id": "i18", "name": "너~ 내가 찜콩!", "spec": "65g", "price": 2500, "cat": "유제품·간식", "star": false, "owned": true}, {"id": "i19", "name": "유기농밥", "spec": "210g×3입", "price": 5850, "cat": "간편·양념·면류", "star": false, "owned": true}, {"id": "i20", "name": "크리넥스 안심 클래식 키친타올", "spec": "120매×4롤", "price": 4100, "cat": "생활·기타", "star": false, "owned": true}, {"id": "i21", "name": "주부9단 구운마늘햄", "spec": "120g", "price": 1990, "cat": "육류·계란", "star": false, "owned": true}, {"id": "i22", "name": "쉐푸드 볼로네이즈 스파게티", "spec": "220g", "price": 3190, "cat": "간편·양념·면류", "star": false, "owned": true}, {"id": "i23", "name": "장충동왕족발 쫄깃한 편육", "spec": "215g", "price": 5690, "cat": "육류·계란", "star": false, "owned": true}, {"id": "i24", "name": "온더고 정통 일식 가츠동", "spec": "330g", "price": 6280, "cat": "간편·양념·면류", "star": false, "owned": true}, {"id": "i25", "name": "우물우물 영화관 땅콩버터 오징어다리", "spec": "80g", "price": 3990, "cat": "유제품·간식", "star": false, "owned": true}, {"id": "i26", "name": "썬 오징어소면", "spec": "28g", "price": 2990, "cat": "유제품·간식", "star": false, "owned": true}, {"id": "i27", "name": "오리온 다이제 초코 카라멜슈가맛 씬", "spec": "252g", "price": 2990, "cat": "유제품·간식", "star": false, "owned": true}, {"id": "i28", "name": "삼호어묵 만능 칼어묵", "spec": "150g", "price": 2490, "cat": "간편·양념·면류", "star": false, "owned": true}, {"id": "i29", "name": "블랙보리 라이트", "spec": "500ml×2", "price": 1980, "cat": "유제품·간식", "star": false, "owned": true}], "list": [{"id": "l1", "name": "우유", "memo": "시리얼·스프용 · 1L", "store": "오아시스", "star": true, "done": false}, {"id": "l2", "name": "계란", "memo": "계란말이·프라이 · 10구", "store": "오아시스", "star": true, "done": false}, {"id": "l3", "name": "김치", "memo": "어묵우동·볶음밥에 곁들임", "store": "B마트", "star": false, "done": false}, {"id": "l4", "name": "대파", "memo": "찌개·국 필수", "store": "오아시스", "star": false, "done": false}, {"id": "l5", "name": "양파", "memo": "볶음·찌개용 1망", "store": "푸른숲", "star": false, "done": false}, {"id": "l6", "name": "두부", "memo": "된장찌개용 1모", "store": "B마트", "star": false, "done": false}], "ledger": [{"id": "e1", "date": "2026-11-16", "store": "오아시스", "item": "구운 주먹밥 참치마요 (100g×5입)", "cat": "간편·양념·면류", "amount": 9900, "qty": 1, "online": true}, {"id": "e2", "date": "2026-11-16", "store": "오아시스", "item": "우리밀쌀 김치어묵우동 (650g)", "cat": "간편·양념·면류", "amount": 8600, "qty": 1, "online": true}, {"id": "e3", "date": "2026-11-16", "store": "오아시스", "item": "고래사 어묵가득 한입 떡볶이", "cat": "간편·양념·면류", "amount": 6900, "qty": 1, "online": true}, {"id": "e4", "date": "2026-11-16", "store": "오아시스", "item": "라쿠치나 로제 파스타", "cat": "간편·양념·면류", "amount": 6300, "qty": 1, "online": true}, {"id": "e5", "date": "2026-11-16", "store": "오아시스", "item": "국산 데친 우거지", "cat": "채소·두부·과일", "amount": 2300, "qty": 1, "online": true}, {"id": "e6", "date": "2026-11-16", "store": "오아시스", "item": "[마이셰프] 현대옥 황태콩나물국밥 (2인분 705g)", "cat": "간편·양념·면류", "amount": 9500, "qty": 1, "online": true}, {"id": "e7", "date": "2026-11-16", "store": "오아시스", "item": "오색담은 된장찌개 양념장 (450g)", "cat": "간편·양념·면류", "amount": 11000, "qty": 1, "online": true}, {"id": "e8", "date": "2026-11-16", "store": "오아시스", "item": "[오미로스] 그리스 샐러드 치즈 (150g)", "cat": "유제품·간식", "amount": 3590, "qty": 1, "online": true}, {"id": "e9", "date": "2026-11-16", "store": "오아시스", "item": "감자 크림스프 (200g)", "cat": "유제품·간식", "amount": 3590, "qty": 1, "online": true}, {"id": "e10", "date": "2026-11-16", "store": "오아시스", "item": "무항생제 1++ 한우 치마살 (200g)", "cat": "육류·계란", "amount": 36900, "qty": 1, "online": true}, {"id": "e11", "date": "2026-11-16", "store": "오아시스", "item": "국내산 로메인 (200g)", "cat": "채소·두부·과일", "amount": 2600, "qty": 1, "online": true}, {"id": "e12", "date": "2026-11-16", "store": "오아시스", "item": "국내산 쌈배추 (400g 내외)", "cat": "채소·두부·과일", "amount": 2600, "qty": 1, "online": true}, {"id": "e13", "date": "2026-11-16", "store": "오아시스", "item": "GAP 알찬 대추방울토마토 (240g)", "cat": "채소·두부·과일", "amount": 3100, "qty": 1, "online": true}, {"id": "e14", "date": "2026-11-16", "store": "오아시스", "item": "[무농약] 무농약 햇 감자 (800g)", "cat": "채소·두부·과일", "amount": 3680, "qty": 1, "online": true}, {"id": "e15", "date": "2026-11-16", "store": "오아시스", "item": "[농할 20%] 국내산 백오이 (특품 2개)", "cat": "채소·두부·과일", "amount": 2640, "qty": 1, "online": true}, {"id": "e16", "date": "2026-11-16", "store": "오아시스", "item": "천하장사 오리지널 (28g×16개입)", "cat": "유제품·간식", "amount": 7200, "qty": 1, "online": true}, {"id": "e17", "date": "2026-11-16", "store": "오아시스", "item": "3초 완성! 찐티보리 (25ml×10파우치)", "cat": "유제품·간식", "amount": 6900, "qty": 1, "online": true}, {"id": "e18", "date": "2026-11-16", "store": "오아시스", "item": "너~ 내가 찜콩! (65g)", "cat": "유제품·간식", "amount": 2500, "qty": 1, "online": true}, {"id": "e19", "date": "2026-11-16", "store": "오아시스", "item": "유기농밥 (210g×3입)", "cat": "간편·양념·면류", "amount": 5850, "qty": 1, "online": true}, {"id": "e20", "date": "2026-11-16", "store": "B마트", "item": "크리넥스 안심 클래식 키친타올 (120매×4롤)", "cat": "생활·기타", "amount": 4100, "qty": 1, "online": true}, {"id": "e21", "date": "2026-11-16", "store": "B마트", "item": "주부9단 구운마늘햄 (120g)", "cat": "육류·계란", "amount": 1990, "qty": 1, "online": true}, {"id": "e22", "date": "2026-11-16", "store": "B마트", "item": "쉐푸드 볼로네이즈 스파게티 (220g)", "cat": "간편·양념·면류", "amount": 3190, "qty": 1, "online": true}, {"id": "e23", "date": "2026-11-16", "store": "B마트", "item": "장충동왕족발 쫄깃한 편육 (215g)", "cat": "육류·계란", "amount": 5690, "qty": 1, "online": true}, {"id": "e24", "date": "2026-11-16", "store": "B마트", "item": "온더고 정통 일식 가츠동 (330g)", "cat": "간편·양념·면류", "amount": 6280, "qty": 1, "online": true}, {"id": "e25", "date": "2026-11-16", "store": "B마트", "item": "우물우물 영화관 땅콩버터 오징어다리 (80g)", "cat": "유제품·간식", "amount": 3990, "qty": 1, "online": true}, {"id": "e26", "date": "2026-11-16", "store": "B마트", "item": "썬 오징어소면 (28g)", "cat": "유제품·간식", "amount": 2990, "qty": 1, "online": true}, {"id": "e27", "date": "2026-11-16", "store": "B마트", "item": "오리온 다이제 초코 카라멜슈가맛 씬 (252g)", "cat": "유제품·간식", "amount": 2990, "qty": 1, "online": true}, {"id": "e28", "date": "2026-11-16", "store": "B마트", "item": "삼호어묵 만능 칼어묵 (150g)", "cat": "간편·양념·면류", "amount": 2490, "qty": 1, "online": true}, {"id": "e29", "date": "2026-11-16", "store": "B마트", "item": "블랙보리 라이트 (500ml×2)", "cat": "유제품·간식", "amount": 1980, "qty": 1, "online": true}], "orders": [{"name": "오아시스", "sub": "2026년 11월 16일 (월) · 새벽배송 · 성인 2 + 초등 1 (3인) 기준 주간 장보기", "badge": "✅ 배송완료", "items": 19, "goods": 135650, "discount": 0, "points": 0, "paid": 135650, "pay": "오아시스 주문 · 배송완료", "card": 0, "save": 0, "final": 135650}, {"name": "B마트", "sub": "2026년 11월 16일 (월) · B마트 배송 · 간편식·간식·생활용품 보충", "badge": "✅ 배송완료", "items": 10, "goods": 35690, "discount": 0, "points": 0, "paid": 35690, "pay": "B마트 주문 · 배송완료", "card": 0, "save": 0, "final": 35690}]};
 var S=null, tab='meals', invFilter='전체', invQuery='';
 
-function fmt(n){return Math.round(n).toLocaleString('ko-KR');}
+function fmt(n){var v=Math.round(n),neg=v<0,s=String(Math.abs(v)).replace(/\B(?=(\d{3})+(?!\d))/g,',');return (neg?'-':'')+s;}
 function won(n){return fmt(n)+'원';}
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
 function uid(){return 'x'+Date.now().toString(36)+(''+Math.random()).slice(2,7);}
@@ -190,7 +191,7 @@ function consumedCost(st){return mealCostSum(st)+soldOutSum(st);}
 function remainingStock(st){return ownedSum(st)-mealCostSum(st);}
 function ledgerTotal(st){return st.ledger.reduce(function(a,e){return a+e.amount*e.qty;},0);}
 function ledgerOnline(st){return st.ledger.filter(function(e){return e.online;}).reduce(function(a,e){return a+e.amount*e.qty;},0);}
-function catSums(st){var m={};CATS.forEach(function(c){m[c]=0;});st.ledger.forEach(function(e){var k=CATS.indexOf(e.cat)>=0?e.cat:'기타';m[k]+=e.amount*e.qty;});return m;}
+function catSums(st){var m={};CATS.forEach(function(c){m[c]=0;});st.ledger.forEach(function(e){var k=CATS.indexOf(e.cat)>=0?e.cat:'생활·기타';m[k]+=e.amount*e.qty;});return m;}
 function doneMeals(st){return st.meals.filter(function(m){return m.done;}).length;}
 function planMeals(st){return st.meals.length;}
 
@@ -199,7 +200,7 @@ function summaryCardHTML(){
   var lt=ledgerTotal(S),on=ledgerOnline(S),off=lt-on;
   var d=doneMeals(S),p=planMeals(S),cons=consumedCost(S);
   return '<div class="card grad">'
-    +'<div class="otop"><span class="badge">🚚 오아시스 · 도착 완료</span><span class="week">11/16 - 11/22</span></div>'
+    +'<div class="otop"><span class="badge">🛒 오아시스·B마트 · 배송완료</span><span class="week">11/16 - 11/22</span></div>'
     +'<div class="stat3">'
     +'<div class="st"><small>실결제 금액</small><b>'+won(lt)+'</b><i>온라인 '+won(on)+' + 오프라인 '+won(off)+'</i></div>'
     +'<div class="st"><small>담은 품목</small><b>'+S.inv.length+'건</b><i>&nbsp;</i></div>'
@@ -219,7 +220,9 @@ function progressHTML(){
 function mealRowHTML(m){
   return '<div class="meal'+(m.done?' done':'')+' '+m.slot+'">'
     +'<button class="chk'+(m.done?' on':'')+'" data-act="toggleMeal" data-id="'+m.id+'" aria-label="완료 체크">'+(m.done?'✓':'')+'</button>'
-    +'<div class="mbody"><span class="slot">'+(m.slot==='am'?'아침':'저녁')+' · '+fmt(m.cost)+'원</span><div class="menu">'+esc(m.menu)+'</div></div>'
+    +'<div class="mbody"><span class="slot">'+(m.slot==='am'?'아침':'저녁')+' · '+fmt(m.cost)+'원</span><div class="menu">'+esc(m.menu)+'</div>'
+    +(m.use?'<div class="muse">재료 · '+esc(m.use)+'</div>':'')
+    +'</div>'
     +'<button class="edit" data-act="editMeal" data-id="'+m.id+'" aria-label="메뉴 수정">✏️</button>'
     +'</div>';
 }
@@ -251,7 +254,7 @@ function paintInvItems(){
   document.getElementById('invItems').innerHTML=html;
 }
 function renderInv(){
-  var chips=['전체'].concat(CATS.slice(0,4)).map(function(c){
+  var chips=['전체'].concat(CATS).map(function(c){
     var n=c==='전체'?S.inv.length:S.inv.filter(function(x){return x.cat===c;}).length;
     return '<button class="chip'+(invFilter===c?' on':'')+'" data-act="setInvFilter" data-id="'+c+'">'+c+' '+n+'</button>';
   }).join('');
@@ -266,6 +269,7 @@ function listRowHTML(x){
     +'<button class="star'+(x.star?' on':'')+'" data-act="starList" data-id="'+x.id+'" aria-label="즐겨찾기">'+(x.star?'★':'☆')+'</button>'
     +'<button class="chk'+(x.done?' on':'')+'" data-act="checkList" data-id="'+x.id+'" aria-label="완료 체크">'+(x.done?'✓':'')+'</button>'
     +'<div class="ibody"><div class="iname">'+esc(x.name)+'</div><div class="imeta">'+(x.memo?esc(x.memo)+' · ':'')+'<span class="tag">#'+esc(x.store)+'</span></div></div>'
+    +'<button class="edit" data-act="editList" data-id="'+x.id+'" aria-label="수정">✏️</button>'
     +'<button class="del" data-act="delList" data-id="'+x.id+'" aria-label="삭제">×</button>'
     +'</div>';
 }
@@ -301,19 +305,23 @@ function renderLedger(){
     +'<div class="ledgerlist">'+(entries.map(entryRowHTML).join('')||'<div class="empty">아직 기록이 없어요</div>')+'</div></div>';
 }
 function orderCardHTML(o){
-  return '<div class="card">'
+  var h='<div class="card">'
     +'<div class="otop"><b>'+esc(o.name)+'</b><span class="badge olive">'+esc(o.badge)+'</span></div>'
     +'<div class="dim small">'+esc(o.sub)+'</div>'
     +'<hr class="dash">'
-    +'<div class="orow"><span>상품 금액 ('+o.items+'건)</span><b>'+won(o.goods)+'</b></div>'
-    +'<div class="orow"><span>상품 할인</span><b class="good">-'+won(o.discount)+'</b></div>'
-    +(o.points?'<div class="orow"><span>포인트·지원금</span><b class="good">-'+won(o.points)+'</b></div>':'')
-    +'<hr class="dash">'
-    +'<div class="orow pay"><span>실결제 금액<div class="dim small" style="font-weight:600">'+esc(o.pay)+'</div></span><b>'+won(o.paid)+'</b></div>'
-    +'<hr class="dash">'
-    +(o.card?'<div class="orow"><span>카드 7% 청구할인 (예상)</span><b class="good">-'+won(o.card)+'</b></div><div class="orow"><span>쏙7클럽 + 신세계포인트 적립 (예정)</span><b class="good">-'+won(o.save)+'</b></div>':'')
-    +'<div class="final"><span>혜택까지 계산한 실지출</span><b>'+won(o.final)+'</b></div>'
-    +'</div>';
+    +'<div class="orow"><span>상품 금액 ('+o.items+'건)</span><b>'+won(o.goods)+'</b></div>';
+  if(o.discount)h+='<div class="orow"><span>상품 할인</span><b class="good">-'+won(o.discount)+'</b></div>';
+  if(o.points)h+='<div class="orow"><span>포인트·지원금</span><b class="good">-'+won(o.points)+'</b></div>';
+  h+='<hr class="dash">'
+    +'<div class="orow pay"><div><span>실결제 금액</span><div class="dim small" style="font-weight:600">'+esc(o.pay)+'</div></div><b>'+won(o.paid)+'</b></div>';
+  if(o.card||o.save){
+    h+='<hr class="dash">';
+    if(o.card)h+='<div class="orow"><span>카드 청구할인 (예상)</span><b class="good">-'+won(o.card)+'</b></div>';
+    if(o.save)h+='<div class="orow"><span>포인트 적립 (예정)</span><b class="good">-'+won(o.save)+'</b></div>';
+  }
+  if(o.final!==o.paid)h+='<div class="final"><span>혜택까지 계산한 실지출</span><b>'+won(o.final)+'</b></div>';
+  h+='</div>';
+  return h;
 }
 function renderSummary(){
   var cs=catSums(S);
@@ -322,8 +330,13 @@ function renderSummary(){
   var bars=keys.map(function(k){
     return '<div class="brow"><span class="blabel">'+k+'</span><div class="bbar"><i style="width:'+Math.round(cs[k]/max*100)+'%;background:'+CAT_COLORS[k]+'"></i></div><b class="bval">'+won(cs[k])+'</b></div>';
   }).join('');
+  var ordTotal=S.orders.reduce(function(a,o){return a+o.paid;},0);
+  var ordItems=S.orders.reduce(function(a,o){return a+o.items;},0);
   document.getElementById('summaryBody').innerHTML=S.orders.map(orderCardHTML).join('')
     +'<div class="card"><div class="lhead">품목별 금액</div><div class="dim small" style="margin-bottom:6px">'+keys.length+'개 분류 · '+S.inv.length+'개 품목 · 합계 '+won(ledgerTotal(S))+'</div>'+bars+'</div>'
+    +'<div class="card"><div class="lhead">주문 합계</div>'
+    +'<div class="orow"><span>오아시스 + B마트</span><b>'+S.orders.length+'건 · '+ordItems+'품목</b></div>'
+    +'<div class="orow pay"><span>합계</span><b>'+won(ordTotal)+'</b></div></div>'
     +'<div class="note">💾 체크·입력 내용은 이 기기에 자동 저장돼요 (사파리로 열어 사용 기준).<br>처음 상태로 돌리려면 우측 상단 ↺ 초기화 버튼.</div>';
 }
 function renderAll(){renderMeals();renderInv();renderList();renderLedger();renderSummary();}
@@ -366,6 +379,23 @@ function setInvFilter(c){invFilter=c;renderInv();}
 function starList(id){var x=S.list.find(function(y){return y.id===id;});if(!x)return;x.star=!x.star;save();renderList();}
 function checkList(id){var x=S.list.find(function(y){return y.id===id;});if(!x)return;x.done=!x.done;save();renderList();}
 function delList(id){S.list=S.list.filter(function(y){return y.id!==id;});save();renderList();toast('삭제했어요');}
+function editList(id){
+  var x=S.list.find(function(y){return y.id===id;});if(!x)return;
+  openModal('<h3>장볼 목록 수정</h3>'
+    +'<input class="in" id="elName" value="'+esc(x.name)+'" placeholder="품목명">'
+    +'<input class="in" id="elMemo" value="'+esc(x.memo)+'" placeholder="메모">'
+    +'<select class="in" id="elStore">'+STORES.map(function(s){return '<option'+(s===x.store?' selected':'')+'>'+s+'</option>';}).join('')+'</select>'
+    +'<div class="mrow"><button class="btn ghost" data-act="closeModal">취소</button><button class="btn primary" data-act="saveList" data-id="'+x.id+'">저장</button></div>');
+}
+function saveList(id){
+  var x=S.list.find(function(y){return y.id===id;});if(!x)return;
+  var n=document.getElementById('elName').value.trim();
+  if(!n){toast('품목명을 입력해 주세요');return;}
+  x.name=n;
+  x.memo=document.getElementById('elMemo').value.trim();
+  x.store=document.getElementById('elStore').value;
+  save();closeModal();renderList();toast('수정했어요 ✏️');
+}
 function delLedger(id){S.ledger=S.ledger.filter(function(y){return y.id!==id;});save();renderAll();toast('기록을 삭제했어요');}
 function addList(){
   var v=document.getElementById('liName').value.trim();
@@ -378,11 +408,15 @@ function basketText(){
   if(!left.length)return null;
   var groups={};STORES.forEach(function(s){groups[s]=[];});
   left.forEach(function(x){(groups[x.store]||groups['기타']).push(x);});
-  var t='🛒 토비에게 장바구니 담기 요청\n\n아래 품목을 장바구니에 담아 주세요!\n';
+  var lines=['🛒 토비에게 장바구니 담기 요청','','아래 품목을 장바구니에 담아 주세요!'];
   STORES.forEach(function(s){
-    if(groups[s].length){t+='\n['+s+']\n';groups[s].forEach(function(x){t+='· '+x.name+(x.memo?' — '+x.memo:'')+'\n';});}
+    if(groups[s].length){
+      lines.push('');
+      lines.push('['+s+']');
+      groups[s].forEach(function(x){lines.push('· '+x.name+(x.memo?' — '+x.memo:''));});
+    }
   });
-  return t;
+  return lines.join('\n');
 }
 function copyBasket(){
   var t=basketText();
@@ -413,12 +447,12 @@ function addLedger(){
   var e={id:uid(),date:document.getElementById('lDate').value||todayISO(),store:document.getElementById('lStore').value.trim()||'기타',item:item,cat:cat,amount:Math.round(amt),qty:qty,online:true};
   S.ledger.push(e);
   if(!document.getElementById('lMerge').checked){
-    S.inv.push({id:uid(),name:item,spec:'',price:Math.round(amt/qty),cat:CATS.indexOf(cat)>=0?cat:'기타',star:false,owned:true});
+    S.inv.push({id:uid(),name:item,spec:'',price:Math.round(amt/qty),cat:CATS.indexOf(cat)>=0?cat:'생활·기타',star:false,owned:true});
   }
   save();renderAll();toast('가계부에 추가했어요 ✓');
 }
 function askReset(){
-  openModal('<h3>처음 상태로 되돌릴까요?</h3><p class="dim">지금까지 체크·수정·입력한 내용이 모두 지워지고 기본 샘플 상태로 돌아갑니다.</p>'
+  openModal('<h3>처음 상태로 되돌릴까요?</h3><p class="dim">지금까지 체크·수정·입력한 내용이 모두 지워지고 실제 주문 29품목 상태로 돌아갑니다.</p>'
     +'<div class="mrow"><button class="btn ghost" data-act="closeModal">취소</button><button class="btn terra" data-act="doReset">초기화</button></div>');
 }
 function doReset(){
@@ -429,7 +463,7 @@ function doReset(){
 var ACTIONS={
   switchTab:switchTab,toggleMeal:toggleMeal,editMeal:editMeal,saveMeal:saveMeal,
   toggleInv:toggleInv,starInv:starInv,setInvFilter:setInvFilter,
-  starList:starList,checkList:checkList,delList:delList,addList:addList,
+  starList:starList,checkList:checkList,delList:delList,addList:addList,editList:editList,saveList:saveList,
   copyBasket:copyBasket,copySel:copySel,addLedger:addLedger,delLedger:delLedger,
   setStore:setStore,askReset:askReset,doReset:doReset,closeModal:closeModal
 };
