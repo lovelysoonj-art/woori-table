@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FAF7F2">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>우리집 식탁 · 11/16 - 11/22 식단·장보기</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{font-family:-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;background:#FAF7F2;color:#3D342A;font-size:15px;line-height:1.45;touch-action:manipulation;padding-bottom:calc(84px + env(safe-area-inset-bottom))}
+#appHeader{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;padding:12px 16px;padding-top:calc(12px + env(safe-area-inset-top));background:linear-gradient(#FBF3E7,#FAF7F2);border-bottom:1px solid #EAE2D6}
+.hicon{flex:0 0 44px;width:44px;height:44px;border-radius:14px;background:#F6E3D3;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:inset 0 0 0 1px #EFD9C2}
+.htitle small{display:block;font-size:11.5px;color:#BF5B2C;font-weight:700;margin-bottom:1px}
+.htitle h1{font-size:19px;letter-spacing:-.3px;font-weight:800}
+.resetbtn{margin-left:auto;flex:0 0 auto;border:1px solid #EAE2D6;background:#fff;border-radius:999px;padding:8px 12px;font-size:12.5px;color:#6B5E4E;font-weight:600;box-shadow:0 1px 4px rgba(93,72,40,.06)}
+main{padding:14px 14px 8px}
+.card{background:#fff;border:1px solid #EAE2D6;border-radius:16px;box-shadow:0 2px 12px rgba(93,72,40,.06);padding:14px;margin-bottom:12px}
+.grad{background:linear-gradient(135deg,#FBEADF,#F7E8D8);border-color:#F0DFC9}
+.badge{display:inline-flex;align-items:center;gap:4px;background:#fff;border:1px solid #EFE4D2;border-radius:999px;padding:5px 10px;font-size:12px;font-weight:700;color:#8A6B4F}
+.badge.terra{background:#F6E3D3;border-color:#F0D3BB;color:#A64A1D}
+.badge.olive{background:#E7EFE4;border-color:#D3E2CE;color:#3E6547}
+.week{font-size:12px;font-weight:700;color:#B49A78}
+.otop{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
+.otop b{font-size:16px}
+.cardcap{display:block;font-size:12px;color:#8A7D6D;font-weight:700;margin-bottom:6px}
+.stat3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px}
+.stat3:last-child{margin-bottom:2px}
+.stat3 .st{background:rgba(255,255,255,.75);border:1px solid #F0E4D2;border-radius:12px;padding:8px 9px;min-width:0}
+.stat3 .st small{display:block;font-size:10.5px;color:#93867A;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stat3 .st b{display:block;font-size:14.5px;margin-top:2px;letter-spacing:-.3px;white-space:nowrap}
+.stat3 .st i{display:block;font-style:normal;font-size:10px;color:#A79A8B;margin-top:1px}
+.rowline{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.bigline{font-size:17px;font-weight:800;letter-spacing:-.3px}
+.bigline b{color:#BF5B2C}
+.bar{height:10px;background:#F1E8DA;border-radius:999px;margin-top:12px;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,#D97E4E,#BF5B2C);transition:width .3s}
+.daycard .dhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.dlabel{font-size:15px;font-weight:800;display:flex;align-items:center;gap:6px}
+.dlabel span{color:#A79A8B;font-weight:700;font-size:13px}
+.dcount{font-size:12px;color:#93867A;font-weight:700}
+.meal{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid #F3EDE2}
+.meal:last-child{border-bottom:0;padding-bottom:2px}
+.chk{flex:0 0 26px;width:26px;height:26px;border-radius:9px;border:1.6px solid #DCCDB6;background:#fff;font-size:14px;color:#fff;font-weight:800;line-height:1}
+.chk.on{background:#4D7A58;border-color:#4D7A58}
+.mbody{flex:1;min-width:0}
+.slot{display:inline-block;font-size:11px;font-weight:800;color:#A64A1D;background:#F6E3D3;border-radius:6px;padding:1px 6px;margin-bottom:3px}
+.meal.pm .slot{color:#3E6547;background:#E7EFE4}
+.menu{font-size:14.5px;font-weight:600;letter-spacing:-.2px;word-break:keep-all}
+.meal.done .menu{color:#B5A896;text-decoration:line-through}
+.edit{flex:0 0 34px;border:1px solid #EFE4D2;background:#FDF9F2;border-radius:10px;font-size:15px;height:34px}
+.chips{display:flex;gap:6px;overflow-x:auto;padding:10px 0 4px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;border:1px solid #E4D9C8;background:#fff;color:#6B5E4E;border-radius:999px;padding:7px 12px;font-size:12.5px;font-weight:700}
+.chip.on{background:#3D342A;color:#fff;border-color:#3D342A}
+.statusline{font-size:12px;color:#93867A;font-weight:600;margin:2px 0 10px}
+.in{width:100%;border:1.5px solid #E4D9C8;border-radius:12px;padding:11px 12px;font-size:16px;background:#fff;color:#3D342A;font-family:inherit;-webkit-appearance:none;appearance:none}
+.in:focus{outline:none;border-color:#BF5B2C;box-shadow:0 0 0 3px #F6E3D3}
+.item{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #F3EDE2}
+.item:last-child{border-bottom:0}
+.item .star{flex:0 0 30px;border:0;background:none;font-size:20px;color:#D9C9A8;line-height:1}
+.item .star.on{color:#E2A33C}
+.ibody{flex:1;min-width:0}
+.iname{font-size:14.5px;font-weight:700;letter-spacing:-.2px;word-break:keep-all}
+.item.done .iname{color:#B5A896;text-decoration:line-through}
+.imeta{font-size:11.5px;color:#93867A;margin-top:2px;word-break:keep-all}
+.tag{color:#4D7A58;font-weight:700}
+.ownbtn{flex:0 0 auto;border:1.4px solid #C9DCC4;background:#EDF4EA;color:#3E6547;border-radius:999px;padding:7px 13px;font-size:12.5px;font-weight:800}
+.ownbtn.soldout{border-color:#E4D9C8;background:#F5F0E7;color:#93867A}
+.del{flex:0 0 28px;border:0;background:none;color:#C4B6A2;font-size:20px;line-height:1}
+.lhead{font-size:15.5px;font-weight:800;letter-spacing:-.2px;margin-bottom:8px}
+.dim{color:#93867A;font-weight:600}
+.small{font-size:12px}
+.empty{text-align:center;color:#B5A896;font-size:13px;padding:18px 0}
+.addform{margin-top:12px;border:1.6px dashed #E0D3BE;border-radius:14px;padding:12px;background:#FDFBF7}
+.frow{display:flex;gap:8px;margin-bottom:8px}
+.frow .in{flex:1;min-width:0}
+.frow .btn{flex:0 0 auto;width:auto;padding-left:18px;padding-right:18px}
+.frow2{display:flex;gap:8px;margin-bottom:8px}
+.frow3{display:grid;grid-template-columns:1.2fr 1.2fr .7fr;gap:8px;margin-bottom:10px}
+.mergelabel{display:flex;align-items:center;gap:7px;font-size:12.5px;color:#6B5E4E;font-weight:600;margin-bottom:10px}
+.mergelabel input{width:18px;height:18px;accent-color:#BF5B2C}
+.btn{border:0;border-radius:12px;padding:12px;font-size:14.5px;font-weight:800;width:100%;font-family:inherit}
+.btn.primary{background:#BF5B2C;color:#fff}
+.btn.terra{background:#BF5B2C;color:#fff}
+.btn.olive{background:#4D7A58;color:#fff}
+.btn.ghost{background:#F3EDE3;color:#5C5346}
+.bigcopy{display:block;width:100%;border:0;border-radius:16px;background:#4D7A58;color:#fff;font-size:15.5px;font-weight:800;padding:16px;font-family:inherit;box-shadow:0 4px 14px rgba(77,122,88,.28);letter-spacing:-.2px}
+.hero{background:linear-gradient(135deg,#FBEADF,#F7E8D8);border:1px solid #F0DFC9;border-radius:14px;padding:12px 14px;margin-bottom:10px}
+.hero small{display:block;font-size:12px;color:#93867A;font-weight:700}
+.hero b{display:block;font-size:25px;letter-spacing:-.5px;margin:2px 0 1px}
+.hero i{display:block;font-style:normal;font-size:11.5px;color:#A79A8B}
+.stat2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.stbox{background:#FBF7F0;border:1px solid #F0E4D2;border-radius:12px;padding:10px 12px}
+.stbox small{display:block;font-size:11px;color:#93867A;font-weight:700}
+.stbox b{display:block;font-size:18px;letter-spacing:-.3px;margin:2px 0 3px}
+.stbox i{display:block;font-style:normal;font-size:11px;color:#A79A8B;line-height:1.5}
+.stbox.wide{margin-bottom:2px}
+.ledgerlist{margin-top:14px;border-top:1px dashed #E4D9C8;padding-top:6px}
+.lrow{display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid #F3EDE2}
+.lrow:last-child{border-bottom:0}
+.lcol{flex:1;min-width:0}
+.lcol b{display:block;font-size:13.5px;word-break:keep-all}
+.lcol i{display:block;font-style:normal;font-size:11px;color:#A79A8B;margin-top:1px}
+.lamt{font-size:13.5px;white-space:nowrap}
+.dash{border:0;border-top:1.5px dashed #E8DDC9;margin:10px 0}
+.orow{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:3px 0;font-size:14px}
+.orow span{color:#6B5E4E;font-weight:600}
+.orow b{letter-spacing:-.3px}
+.orow .good{color:#3E6547}
+.orow.pay b{font-size:23px}
+.orow.pay span{font-weight:800;color:#3D342A}
+.final{display:flex;align-items:center;justify-content:space-between;background:#EDF4EA;border:1px solid #D3E2CE;border-radius:12px;padding:12px 14px;margin-top:10px}
+.final span{font-size:13.5px;font-weight:700;color:#3E6547}
+.final b{font-size:21px;color:#2F5237;letter-spacing:-.4px}
+.brow{display:flex;align-items:center;gap:10px;padding:7px 0}
+.blabel{flex:0 0 108px;font-size:12.5px;font-weight:700;color:#6B5E4E}
+.bbar{flex:1;height:12px;background:#F1E8DA;border-radius:999px;overflow:hidden}
+.bbar i{display:block;height:100%;border-radius:999px}
+.bval{flex:0 0 auto;font-size:12.5px;letter-spacing:-.3px}
+.note{font-size:12px;color:#A79A8B;text-align:center;padding:6px 10px 0;line-height:1.6}
+#tabbar{position:fixed;bottom:0;left:0;right:0;z-index:30;display:flex;background:#fff;border-top:1px solid #EAE2D6;padding:6px 4px;padding-bottom:calc(6px + env(safe-area-inset-bottom))}
+#tabbar button{flex:1;background:none;border:0;font-family:inherit;font-size:10.5px;color:#9A8F80;padding:5px 2px;display:flex;flex-direction:column;align-items:center;gap:3px;font-weight:700;border-radius:12px}
+#tabbar button .ic{font-size:19px;line-height:1}
+#tabbar button.active{background:#F7E9D8;color:#BF5B2C}
+#toast{position:fixed;bottom:calc(92px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%) translateY(16px);background:#2F2A22;color:#fff;padding:11px 18px;border-radius:999px;font-size:13px;font-weight:600;opacity:0;pointer-events:none;transition:.25s;z-index:60;max-width:88vw;text-align:center}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+#modal{position:fixed;inset:0;background:rgba(40,32,22,.45);display:flex;align-items:flex-end;justify-content:center;z-index:50}
+#modal.hidden{display:none}
+.mbox{background:#fff;width:100%;max-width:520px;border-radius:20px 20px 0 0;padding:20px 16px calc(20px + env(safe-area-inset-bottom))}
+.mbox h3{font-size:16.5px;margin-bottom:10px;letter-spacing:-.2px}
+.mbox .in{margin-bottom:10px}
+.mbox p{margin-bottom:10px}
+.mrow{display:flex;gap:8px;margin-top:4px}
+.mrow .btn{flex:1}
+textarea#copyText{width:100%;height:220px;border:1.5px solid #E4D9C8;border-radius:12px;padding:12px;font-size:13px;font-family:inherit;background:#FBF7F0;resize:none;margin-bottom:10px}
+</style>
+</head>
+<body>
+<header id="appHeader">
+  <div class="hicon">🍳</div>
+  <div class="htitle"><small>우리집 식탁</small><h1>11/16 - 11/22 식단·장보기</h1></div>
+  <button class="resetbtn" data-act="askReset">↺ 초기화</button>
+</header>
+<main>
+  <section class="tab active" id="tab-meals"><div id="mealsBody"></div></section>
+  <section class="tab" id="tab-inv"><div id="invBody"></div></section>
+  <section class="tab" id="tab-list"><div id="listBody"></div></section>
+  <section class="tab" id="tab-ledger"><div id="ledgerBody"></div></section>
+  <section class="tab" id="tab-summary"><div id="summaryBody"></div></section>
+</main>
+<nav id="tabbar">
+  <button id="tabbtn-meals" class="active" data-act="switchTab" data-id="meals"><span class="ic">🍽️</span>주간 식단</button>
+  <button id="tabbtn-inv" data-act="switchTab" data-id="inv"><span class="ic">🧊</span>냉장고 재고</button>
+  <button id="tabbtn-list" data-act="switchTab" data-id="list"><span class="ic">🛒</span>장볼 목록</button>
+  <button id="tabbtn-ledger" data-act="switchTab" data-id="ledger"><span class="ic">📝</span>가계부</button>
+  <button id="tabbtn-summary" data-act="switchTab" data-id="summary"><span class="ic">📋</span>장보기 요약</button>
+</nav>
+<div id="toast"></div>
+<div id="modal" class="hidden"><div class="mbox" id="modalBox"></div></div>
+<script>
+'use strict';
+var KEY='woori_table_soonjung_v1';
+var CATS=['육류·계란','채소·두부·과일','간편·양념·면류','유제품·간식','기타'];
+var CAT_COLORS={'육류·계란':'#BF5B2C','채소·두부·과일':'#4D7A58','간편·양념·면류':'#C08A2E','유제품·간식':'#7C6BA8','기타':'#9A8F80'};
+var STORES=['오아시스','B마트','푸른숲','딩동','기타'];
+var QUICK_STORES=['오아시스','B마트','푸른숲','딩동','동네마트'];
+var DAYS=[['월','11/16'],['화','11/17'],['수','11/18'],['목','11/19'],['금','11/20'],['토','11/21'],['일','11/22']];
+var SEED={"meta": {"week": "11/16 - 11/22", "household": "성인 2 + 초등 1 (3인)"}, "meals": [{"id": "m1", "day": 0, "slot": "am", "menu": "시리얼 + 우유 + 바나나", "cost": 4950, "done": true}, {"id": "m2", "day": 0, "slot": "pm", "menu": "차돌박이 갈비탕", "cost": 18500, "done": false}, {"id": "m3", "day": 1, "slot": "am", "menu": "유부초밥 패밀리세트 + 된장국 + 방울토마토", "cost": 5800, "done": false}, {"id": "m4", "day": 1, "slot": "pm", "menu": "제육볶음 + 콩나물무침 + 미역국", "cost": 16800, "done": false}, {"id": "m5", "day": 2, "slot": "am", "menu": "그릭요거트 + 그래놀라 + 사과", "cost": 4600, "done": false}, {"id": "m6", "day": 2, "slot": "pm", "menu": "닭볶음탕 + 계란말이 + 쌀밥", "cost": 14200, "done": false}, {"id": "m7", "day": 3, "slot": "am", "menu": "치즈 계란토스트 + 우유", "cost": 4900, "done": false}, {"id": "m8", "day": 3, "slot": "pm", "menu": "한우 불고기 + 상추쌈 + 된장국", "cost": 24500, "done": false}, {"id": "m9", "day": 4, "slot": "am", "menu": "계란후라이 + 토스트 + 커피", "cost": 3900, "done": false}, {"id": "m10", "day": 4, "slot": "pm", "menu": "들깨칼국수 + 야채튀김", "cost": 11800, "done": false}, {"id": "m11", "day": 5, "slot": "am", "menu": "토마토 스크램블에그 + 샐러드", "cost": 5200, "done": false}, {"id": "m12", "day": 5, "slot": "pm", "menu": "야채김치 볶음밥 + 계란후라이", "cost": 9800, "done": false}, {"id": "m13", "day": 6, "slot": "am", "menu": "바나나 팬케이크 + 우유", "cost": 5400, "done": false}, {"id": "m14", "day": 6, "slot": "pm", "menu": "순두부찌개 + 계란말이 + 쌀밥", "cost": 12300, "done": false}], "inv": [{"id": "i1", "name": "브렌드한우 앞다리 1++(9)등급 불고기용", "spec": "300g (100g×3)", "price": 21261, "cat": "육류·계란", "star": false, "owned": true}, {"id": "i2", "name": "노브랜드 냉동차돌박이 바로구이", "spec": "600g", "price": 16788, "cat": "육류·계란", "star": true, "owned": true}, {"id": "i3", "name": "마니커 무항생제 닭볶음탕", "spec": "1200g", "price": 9524, "cat": "육류·계란", "star": false, "owned": true}, {"id": "i4", "name": "알찬란 (계란)", "spec": "30구", "price": 7837, "cat": "육류·계란", "star": true, "owned": true}, {"id": "i5", "name": "5K프라이스 깐매추리알", "spec": "500g", "price": 4953, "cat": "육류·계란", "star": false, "owned": true}, {"id": "i6", "name": "양파", "spec": "3kg", "price": 8900, "cat": "채소·두부·과일", "star": true, "owned": true}, {"id": "i7", "name": "대파", "spec": "3단", "price": 6900, "cat": "채소·두부·과일", "star": false, "owned": true}, {"id": "i8", "name": "사과 (홍로)", "spec": "5입", "price": 4900, "cat": "채소·두부·과일", "star": true, "owned": true}, {"id": "i9", "name": "방울토마토", "spec": "500g", "price": 3500, "cat": "채소·두부·과일", "star": false, "owned": true}, {"id": "i10", "name": "어린잎채소", "spec": "100g", "price": 2980, "cat": "채소·두부·과일", "star": false, "owned": true}, {"id": "i11", "name": "두부 (찌개용)", "spec": "3매", "price": 2970, "cat": "채소·두부·과일", "star": false, "owned": true}, {"id": "i12", "name": "오이", "spec": "3입", "price": 2400, "cat": "채소·두부·과일", "star": false, "owned": true}, {"id": "i13", "name": "깐마늘", "spec": "200g", "price": 1590, "cat": "채소·두부·과일", "star": false, "owned": true}, {"id": "i14", "name": "무", "spec": "1통", "price": 1390, "cat": "채소·두부·과일", "star": false, "owned": true}, {"id": "i15", "name": "파프리카", "spec": "2입", "price": 1000, "cat": "채소·두부·과일", "star": false, "owned": true}, {"id": "i16", "name": "깻잎", "spec": "30g", "price": 990, "cat": "채소·두부·과일", "star": false, "owned": true}, {"id": "i17", "name": "감귤 (푸른숲 공동구매)", "spec": "3kg", "price": 9900, "cat": "채소·두부·과일", "star": false, "owned": true}, {"id": "i18", "name": "꿀고구마 (푸른숲 공동구매)", "spec": "3kg", "price": 6600, "cat": "채소·두부·과일", "star": false, "owned": true}, {"id": "i19", "name": "고춧가루 (태안산)", "spec": "1kg", "price": 12900, "cat": "간편·양념·면류", "star": true, "owned": true}, {"id": "i20", "name": "올리브유", "spec": "900ml", "price": 12900, "cat": "간편·양념·면류", "star": false, "owned": true}, {"id": "i21", "name": "참기름", "spec": "160ml", "price": 9900, "cat": "간편·양념·면류", "star": false, "owned": true}, {"id": "i22", "name": "들깨가루", "spec": "300g", "price": 8900, "cat": "간편·양념·면류", "star": false, "owned": true}, {"id": "i23", "name": "진간장 (1212)", "spec": "930ml", "price": 4980, "cat": "간편·양념·면류", "star": false, "owned": true}, {"id": "i24", "name": "멸치다시다", "spec": "80g×2", "price": 3600, "cat": "간편·양념·면류", "star": false, "owned": true}, {"id": "i25", "name": "칼국수면", "spec": "900g", "price": 3980, "cat": "간편·양념·면류", "star": false, "owned": true}, {"id": "i26", "name": "토마토소스", "spec": "410g", "price": 3490, "cat": "간편·양념·면류", "star": false, "owned": true}, {"id": "i27", "name": "두반장", "spec": "500g", "price": 2980, "cat": "간편·양념·면류", "star": false, "owned": true}, {"id": "i28", "name": "생면", "spec": "540g", "price": 2880, "cat": "간편·양념·면류", "star": false, "owned": true}, {"id": "i29", "name": "천일염", "spec": "1kg", "price": 1900, "cat": "간편·양념·면류", "star": false, "owned": true}, {"id": "i30", "name": "카레가루", "spec": "200g", "price": 2000, "cat": "간편·양념·면류", "star": false, "owned": true}, {"id": "i31", "name": "후추 (입자)", "spec": "60g", "price": 1775, "cat": "간편·양념·면류", "star": false, "owned": true}, {"id": "i32", "name": "흰우유", "spec": "750ml", "price": 2580, "cat": "유제품·간식", "star": true, "owned": true}, {"id": "i33", "name": "플레인요거트", "spec": "900g", "price": 3980, "cat": "유제품·간식", "star": true, "owned": true}, {"id": "i34", "name": "슬라이스치즈", "spec": "10매", "price": 2180, "cat": "유제품·간식", "star": false, "owned": true}, {"id": "i35", "name": "통밀크래커", "spec": "350g", "price": 1053, "cat": "유제품·간식", "star": false, "owned": true}], "list": [{"id": "l1", "name": "우유", "memo": "시리얼용 · 필수", "store": "오아시스", "star": true, "done": false}, {"id": "l2", "name": "양파", "memo": "닭볶음탕·불고기·짜장", "store": "B마트", "star": true, "done": false}, {"id": "l3", "name": "당근", "memo": "짜장·볶음밥", "store": "푸른숲", "star": false, "done": false}, {"id": "l4", "name": "애호박", "memo": "된장찌개·볶음", "store": "딩동", "star": false, "done": false}, {"id": "l5", "name": "짜장용 돼지고기 (또는 스팸·어묵)", "memo": "금요일 짜장밥", "store": "오아시스", "star": false, "done": false}, {"id": "l6", "name": "김", "memo": "집에 떨어졌을 때", "store": "B마트", "star": false, "done": false}, {"id": "l7", "name": "김치", "memo": "집에 떨어졌을 때", "store": "푸른숲", "star": false, "done": false}], "ledger": [{"id": "e1", "date": "2026-11-16", "store": "오아시스", "item": "주간 정기 장바구니 — 육류·계란 5건", "cat": "육류·계란", "amount": 60363, "qty": 1, "online": true}, {"id": "e2", "date": "2026-11-16", "store": "오아시스", "item": "주간 정기 장바구니 — 채소·두부·과일 11건", "cat": "채소·두부·과일", "amount": 37520, "qty": 1, "online": true}, {"id": "e3", "date": "2026-11-16", "store": "오아시스", "item": "주간 정기 장바구니 — 간편·양념·면류 13건", "cat": "간편·양념·면류", "amount": 72185, "qty": 1, "online": true}, {"id": "e4", "date": "2026-11-16", "store": "오아시스", "item": "주간 정기 장바구니 — 유제품·간식 4건", "cat": "유제품·간식", "amount": 9793, "qty": 1, "online": true}, {"id": "e5", "date": "2026-11-15", "store": "푸른숲", "item": "감귤·고구마 공동구매 (밤 픽업 완료)", "cat": "채소·두부·과일", "amount": 16500, "qty": 1, "online": true}], "orders": [{"name": "오아시스 새벽배송", "sub": "2026년 11월 16일 (월) 주문 · 주간배송 · 성인 2 + 초등 1 (3인)", "badge": "🚚 오늘 19:00 도착 완료", "items": 33, "goods": 197520, "discount": 15209, "points": 2450, "paid": 179861, "pay": "SSGPAY 현대카드 결제", "card": 12590, "save": 12752, "final": 154519}, {"name": "푸른숲 공동구매", "sub": "2026년 11월 15일 (일) 접수 · 밤 픽업 완료", "badge": "✅ 픽업 완료", "items": 2, "goods": 20300, "discount": 3800, "points": 0, "paid": 16500, "pay": "무통장 입금", "card": 0, "save": 0, "final": 16500}]};
+var S=null, tab='meals', invFilter='전체', invQuery='';
+
+function fmt(n){return Math.round(n).toLocaleString('ko-KR');}
+function won(n){return fmt(n)+'원';}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+function uid(){return 'x'+Date.now().toString(36)+(''+Math.random()).slice(2,7);}
+function todayMD(){var t=new Date();return (t.getMonth()+1)+'/'+t.getDate();}
+function todayLabel(){var t=new Date();var w=['일','월','화','수','목','금','토'][t.getDay()];return '오늘 '+(t.getMonth()+1)+'월 '+t.getDate()+'일 ('+w+')';}
+function todayISO(){var t=new Date();return t.getFullYear()+'-'+String(t.getMonth()+1).padStart(2,'0')+'-'+String(t.getDate()).padStart(2,'0');}
+
+function load(){try{var raw=localStorage.getItem(KEY);if(raw){var o=JSON.parse(raw);if(o&&o.meals&&o.inv&&o.list&&o.ledger&&o.meta&&o.orders)return o;}}catch(e){}return JSON.parse(JSON.stringify(SEED));}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+
+/* --- 계산 (순수 함수: 상태만으로 산출) --- */
+function invSum(st){return st.inv.reduce(function(a,x){return a+x.price;},0);}
+function ownedSum(st){return st.inv.filter(function(x){return x.owned;}).reduce(function(a,x){return a+x.price;},0);}
+function soldOutSum(st){return st.inv.filter(function(x){return !x.owned;}).reduce(function(a,x){return a+x.price;},0);}
+function mealCostSum(st){return st.meals.filter(function(m){return m.done;}).reduce(function(a,m){return a+m.cost;},0);}
+function consumedCost(st){return mealCostSum(st)+soldOutSum(st);}
+function remainingStock(st){return ownedSum(st)-mealCostSum(st);}
+function ledgerTotal(st){return st.ledger.reduce(function(a,e){return a+e.amount*e.qty;},0);}
+function ledgerOnline(st){return st.ledger.filter(function(e){return e.online;}).reduce(function(a,e){return a+e.amount*e.qty;},0);}
+function catSums(st){var m={};CATS.forEach(function(c){m[c]=0;});st.ledger.forEach(function(e){var k=CATS.indexOf(e.cat)>=0?e.cat:'기타';m[k]+=e.amount*e.qty;});return m;}
+function doneMeals(st){return st.meals.filter(function(m){return m.done;}).length;}
+function planMeals(st){return st.meals.length;}
+
+/* --- 렌더 --- */
+function summaryCardHTML(){
+  var lt=ledgerTotal(S),on=ledgerOnline(S),off=lt-on;
+  var d=doneMeals(S),p=planMeals(S),cons=consumedCost(S);
+  return '<div class="card grad">'
+    +'<div class="otop"><span class="badge">🚚 오아시스 · 도착 완료</span><span class="week">11/16 - 11/22</span></div>'
+    +'<div class="stat3">'
+    +'<div class="st"><small>실결제 금액</small><b>'+won(lt)+'</b><i>온라인 '+won(on)+' + 오프라인 '+won(off)+'</i></div>'
+    +'<div class="st"><small>담은 품목</small><b>'+S.inv.length+'건</b><i>&nbsp;</i></div>'
+    +'<div class="st"><small>이번 주 식단</small><b>'+p+'끼</b><i>&nbsp;</i></div>'
+    +'</div>'
+    +'<div class="stat3">'
+    +'<div class="st"><small>총 구매비용</small><b>'+won(lt)+'</b><i>&nbsp;</i></div>'
+    +'<div class="st"><small>소진비용</small><b>'+won(cons)+'</b><i>&nbsp;</i></div>'
+    +'<div class="st"><small>끼니당 식대 (소진 '+d+'끼)</small><b>'+(d?won(cons/d):'0원')+'</b><i>&nbsp;</i></div>'
+    +'</div>'
+    +'</div>';
+}
+function progressHTML(){
+  var p=planMeals(S),d=doneMeals(S),pct=p?Math.round(d/p*100):0;
+  return '<div class="card"><div class="rowline"><div><small class="cardcap">이번 주 식단 · 11/16 - 11/22</small><div class="bigline">'+p+'끼 중 <b>'+d+'끼</b> 완료</div></div><span class="badge terra">'+todayLabel()+'</span></div><div class="bar"><i style="width:'+pct+'%"></i></div></div>';
+}
+function mealRowHTML(m){
+  return '<div class="meal'+(m.done?' done':'')+' '+m.slot+'">'
+    +'<button class="chk'+(m.done?' on':'')+'" data-act="toggleMeal" data-id="'+m.id+'" aria-label="완료 체크">'+(m.done?'✓':'')+'</button>'
+    +'<div class="mbody"><span class="slot">'+(m.slot==='am'?'아침':'저녁')+' · '+fmt(m.cost)+'원</span><div class="menu">'+esc(m.menu)+'</div></div>'
+    +'<button class="edit" data-act="editMeal" data-id="'+m.id+'" aria-label="메뉴 수정">✏️</button>'
+    +'</div>';
+}
+function dayCardHTML(i){
+  var ms=S.meals.filter(function(m){return m.day===i;});
+  ms.sort(function(a,b){return a.slot===b.slot?0:(a.slot==='am'?-1:1);});
+  var dn=ms.filter(function(m){return m.done;}).length;
+  var today=DAYS[i][1]===todayMD();
+  return '<div class="card daycard">'
+    +'<div class="dhead"><div class="dlabel">'+DAYS[i][0]+' <span>'+DAYS[i][1]+'</span>'+(today?'<span class="badge terra">오늘</span>':'')+'</div><div class="dcount">'+dn+'/'+ms.length+' 완료</div></div>'
+    +ms.map(mealRowHTML).join('')
+    +'</div>';
+}
+function renderMeals(){
+  document.getElementById('mealsBody').innerHTML=summaryCardHTML()+progressHTML()+DAYS.map(function(_,i){return dayCardHTML(i);}).join('');
+}
+function invRowHTML(x){
+  return '<div class="item">'
+    +'<button class="star'+(x.star?' on':'')+'" data-act="starInv" data-id="'+x.id+'" aria-label="즐겨찾기">'+(x.star?'★':'☆')+'</button>'
+    +'<div class="ibody"><div class="iname">'+esc(x.name)+'</div><div class="imeta">'+(x.spec?esc(x.spec)+' · ':'')+fmt(x.price)+'원 · '+esc(x.cat)+'</div></div>'
+    +'<button class="ownbtn'+(x.owned?'':' soldout')+'" data-act="toggleInv" data-id="'+x.id+'">'+(x.owned?'보유':'소진')+'</button>'
+    +'</div>';
+}
+function paintInvItems(){
+  var q=invQuery.trim();
+  var items=S.inv.filter(function(x){return (invFilter==='전체'||x.cat===invFilter)&&(!q||x.name.indexOf(q)>=0);});
+  var html='<div class="statusline">검색 결과 '+items.length+'건 · 보유 '+S.inv.filter(function(x){return x.owned;}).length+' · 소진 '+S.inv.filter(function(x){return !x.owned;}).length+' · 남은 재고 '+won(remainingStock(S))+'</div>'
+    +(items.map(invRowHTML).join('')||'<div class="empty">검색 결과가 없어요</div>');
+  document.getElementById('invItems').innerHTML=html;
+}
+function renderInv(){
+  var chips=['전체'].concat(CATS.slice(0,4)).map(function(c){
+    var n=c==='전체'?S.inv.length:S.inv.filter(function(x){return x.cat===c;}).length;
+    return '<button class="chip'+(invFilter===c?' on':'')+'" data-act="setInvFilter" data-id="'+c+'">'+c+' '+n+'</button>';
+  }).join('');
+  document.getElementById('invBody').innerHTML=summaryCardHTML()
+    +'<div class="card"><input class="in" id="invSearch" type="search" placeholder="재료 이름으로 찾기" value="'+esc(invQuery)+'"><div class="chips">'+chips+'</div><div id="invItems"></div></div>';
+  paintInvItems();
+  var si=document.getElementById('invSearch');
+  si.addEventListener('input',function(){invQuery=this.value;paintInvItems();});
+}
+function listRowHTML(x){
+  return '<div class="item'+(x.done?' done':'')+'">'
+    +'<button class="star'+(x.star?' on':'')+'" data-act="starList" data-id="'+x.id+'" aria-label="즐겨찾기">'+(x.star?'★':'☆')+'</button>'
+    +'<button class="chk'+(x.done?' on':'')+'" data-act="checkList" data-id="'+x.id+'" aria-label="완료 체크">'+(x.done?'✓':'')+'</button>'
+    +'<div class="ibody"><div class="iname">'+esc(x.name)+'</div><div class="imeta">'+(x.memo?esc(x.memo)+' · ':'')+'<span class="tag">#'+esc(x.store)+'</span></div></div>'
+    +'<button class="del" data-act="delList" data-id="'+x.id+'" aria-label="삭제">×</button>'
+    +'</div>';
+}
+function renderList(){
+  var left=S.list.filter(function(x){return !x.done;}).length;
+  document.getElementById('listBody').innerHTML=
+    '<div class="card"><div class="lhead">장볼 목록 <span class="dim">· 남은 '+left+'개</span></div>'
+    +(S.list.map(listRowHTML).join('')||'<div class="empty">목록이 비었어요</div>')
+    +'<div class="addform"><div class="frow"><input class="in" id="liName" placeholder="살 것 추가 (예: 두유)"><select class="in" id="liStore" style="flex:0 0 108px;width:108px">'+STORES.map(function(s){return '<option>'+s+'</option>';}).join('')+'</select></div>'
+    +'<div class="frow"><input class="in" id="liMemo" placeholder="메모 (예: 시리얼용 · 필수)"><button class="btn primary" data-act="addList" style="flex:0 0 auto;width:auto;padding-left:20px;padding-right:20px">추가</button></div></div></div>'
+    +'<button class="bigcopy" data-act="copyBasket">🛒 토비에게 장바구니 담기 요청 복사</button>';
+}
+function entryRowHTML(e){
+  return '<div class="lrow"><div class="lcol"><b>'+esc(e.item)+'</b><i>'+esc(e.date)+' · '+esc(e.store)+' · '+esc(e.cat)+(e.qty>1?' · '+e.qty+'개':'')+'</i></div><b class="lamt">'+won(e.amount*e.qty)+'</b><button class="del" data-act="delLedger" data-id="'+e.id+'" aria-label="삭제">×</button></div>';
+}
+function renderLedger(){
+  var lt=ledgerTotal(S),on=ledgerOnline(S),off=lt-on,p=planMeals(S),d=doneMeals(S),cons=consumedCost(S),rem=remainingStock(S);
+  var per1=p?lt/p:0, per2=d?cons/d:0;
+  var entries=S.ledger.slice().reverse();
+  document.getElementById('ledgerBody').innerHTML=
+    '<div class="card"><small class="cardcap">이번 주 지표 (11/16 - 11/22 · 성인 2 + 초등 1, 3인 기준)</small>'
+    +'<div class="hero"><small>총 구매비용</small><b>'+won(lt)+'</b><i>온라인 '+won(on)+' + 오프라인 '+won(off)+'</i></div>'
+    +'<div class="stat2"><div class="stbox"><small>소진비용</small><b>'+won(cons)+'</b><i>냉장고에 남은 재고<br>'+won(rem)+'</i></div>'
+    +'<div class="stbox"><small>평균식대 · 끼니당</small><b>'+won(per1)+'</b><i>총 구매비용 ÷ 계획 '+p+'끼<br>1인당 '+won(per1/3)+'</i></div></div>'
+    +'<div class="stbox wide"><small>평균식대 · 실제 소진</small><b>'+won(per2)+'</b><i>소진비용 ÷ 완료 '+d+'끼 · 1인당 '+won(per2/3)+'</i></div></div>'
+    +'<div class="card"><div class="lhead">✍️ 장보기 추가 <span class="dim">오프라인·공동구매·온라인</span></div>'
+    +'<div class="frow2"><input class="in" type="date" id="lDate" value="'+todayISO()+'"><input class="in" id="lStore" placeholder="구매처 (예: 동네마트)" list="storeList"><datalist id="storeList">'+QUICK_STORES.map(function(s){return '<option value="'+s+'"></option>';}).join('')+'</datalist></div>'
+    +'<div class="chips">'+QUICK_STORES.map(function(s){return '<button class="chip" data-act="setStore" data-id="'+s+'">'+s+'</button>';}).join('')+'</div>'
+    +'<input class="in" id="lItem" placeholder="품목명 (예: 양파 3망)" style="margin-bottom:8px">'
+    +'<div class="frow3"><select class="in" id="lCat">'+CATS.map(function(c){return '<option>'+c+'</option>';}).join('')+'</select><input class="in" id="lAmt" type="number" inputmode="numeric" placeholder="금액(원)"><input class="in" id="lQty" type="number" inputmode="numeric" value="1"></div>'
+    +'<label class="mergelabel"><input type="checkbox" id="lMerge" checked> 냉장고에 같은 이름의 재료가 있으면 새로 추가하지 않기</label>'
+    +'<button class="btn primary" data-act="addLedger">＋ 가계부에 추가</button>'
+    +'<div class="ledgerlist">'+(entries.map(entryRowHTML).join('')||'<div class="empty">아직 기록이 없어요</div>')+'</div></div>';
+}
+function orderCardHTML(o){
+  return '<div class="card">'
+    +'<div class="otop"><b>'+esc(o.name)+'</b><span class="badge olive">'+esc(o.badge)+'</span></div>'
+    +'<div class="dim small">'+esc(o.sub)+'</div>'
+    +'<hr class="dash">'
+    +'<div class="orow"><span>상품 금액 ('+o.items+'건)</span><b>'+won(o.goods)+'</b></div>'
+    +'<div class="orow"><span>상품 할인</span><b class="good">-'+won(o.discount)+'</b></div>'
+    +(o.points?'<div class="orow"><span>포인트·지원금</span><b class="good">-'+won(o.points)+'</b></div>':'')
+    +'<hr class="dash">'
+    +'<div class="orow pay"><span>실결제 금액<div class="dim small" style="font-weight:600">'+esc(o.pay)+'</div></span><b>'+won(o.paid)+'</b></div>'
+    +'<hr class="dash">'
+    +(o.card?'<div class="orow"><span>카드 7% 청구할인 (예상)</span><b class="good">-'+won(o.card)+'</b></div><div class="orow"><span>쏙7클럽 + 신세계포인트 적립 (예정)</span><b class="good">-'+won(o.save)+'</b></div>':'')
+    +'<div class="final"><span>혜택까지 계산한 실지출</span><b>'+won(o.final)+'</b></div>'
+    +'</div>';
+}
+function renderSummary(){
+  var cs=catSums(S);
+  var keys=Object.keys(cs).filter(function(k){return cs[k]>0;}).sort(function(a,b){return cs[b]-cs[a];});
+  var max=keys.length?cs[keys[0]]:1;
+  var bars=keys.map(function(k){
+    return '<div class="brow"><span class="blabel">'+k+'</span><div class="bbar"><i style="width:'+Math.round(cs[k]/max*100)+'%;background:'+CAT_COLORS[k]+'"></i></div><b class="bval">'+won(cs[k])+'</b></div>';
+  }).join('');
+  document.getElementById('summaryBody').innerHTML=S.orders.map(orderCardHTML).join('')
+    +'<div class="card"><div class="lhead">품목별 금액</div><div class="dim small" style="margin-bottom:6px">'+keys.length+'개 분류 · '+S.inv.length+'개 품목 · 합계 '+won(ledgerTotal(S))+'</div>'+bars+'</div>'
+    +'<div class="note">💾 체크·입력 내용은 이 기기에 자동 저장돼요 (사파리로 열어 사용 기준).<br>처음 상태로 돌리려면 우측 상단 ↺ 초기화 버튼.</div>';
+}
+function renderAll(){renderMeals();renderInv();renderList();renderLedger();renderSummary();}
+
+/* --- 모달·토스트 --- */
+function openModal(html){document.getElementById('modalBox').innerHTML=html;document.getElementById('modal').classList.remove('hidden');}
+function closeModal(){document.getElementById('modal').classList.add('hidden');}
+var toastTimer=null;
+function toast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');if(toastTimer)clearTimeout(toastTimer);toastTimer=setTimeout(function(){t.classList.remove('show');},2200);}
+
+/* --- 동작 --- */
+function switchTab(t){
+  tab=t;
+  ['meals','inv','list','ledger','summary'].forEach(function(n){
+    var sec=document.getElementById('tab-'+n);if(sec)sec.classList.toggle('active',n===t);
+    var b=document.getElementById('tabbtn-'+n);if(b)b.classList.toggle('active',n===t);
+  });
+  window.scrollTo(0,0);
+}
+function toggleMeal(id){var m=S.meals.find(function(x){return x.id===id;});if(!m)return;m.done=!m.done;save();renderAll();}
+function editMeal(id){
+  var m=S.meals.find(function(x){return x.id===id;});if(!m)return;
+  openModal('<h3>메뉴 수정 · '+DAYS[m.day][0]+' '+(m.slot==='am'?'아침':'저녁')+'</h3>'
+    +'<input class="in" id="mealMenu" value="'+esc(m.menu)+'">'
+    +'<input class="in" id="mealCost" type="number" inputmode="numeric" value="'+m.cost+'">'
+    +'<p class="dim small">재료비를 고치면 소진비용·끼니당 식대에 그대로 반영돼요.</p>'
+    +'<div class="mrow"><button class="btn ghost" data-act="closeModal">취소</button><button class="btn primary" data-act="saveMeal" data-id="'+m.id+'">저장</button></div>');
+}
+function saveMeal(id){
+  var m=S.meals.find(function(x){return x.id===id;});if(!m)return;
+  var v=document.getElementById('mealMenu').value.trim();
+  var c=parseFloat(document.getElementById('mealCost').value);
+  if(v)m.menu=v;
+  if(!isNaN(c)&&c>=0)m.cost=Math.round(c);
+  save();closeModal();renderAll();toast('메뉴를 수정했어요 ✏️');
+}
+function toggleInv(id){var x=S.inv.find(function(y){return y.id===id;});if(!x)return;x.owned=!x.owned;save();renderAll();}
+function starInv(id){var x=S.inv.find(function(y){return y.id===id;});if(!x)return;x.star=!x.star;save();renderInv();}
+function setInvFilter(c){invFilter=c;renderInv();}
+function starList(id){var x=S.list.find(function(y){return y.id===id;});if(!x)return;x.star=!x.star;save();renderList();}
+function checkList(id){var x=S.list.find(function(y){return y.id===id;});if(!x)return;x.done=!x.done;save();renderList();}
+function delList(id){S.list=S.list.filter(function(y){return y.id!==id;});save();renderList();toast('삭제했어요');}
+function delLedger(id){S.ledger=S.ledger.filter(function(y){return y.id!==id;});save();renderAll();toast('기록을 삭제했어요');}
+function addList(){
+  var v=document.getElementById('liName').value.trim();
+  if(!v){toast('품목명을 입력해 주세요');return;}
+  S.list.push({id:uid(),name:v,memo:document.getElementById('liMemo').value.trim(),store:document.getElementById('liStore').value,star:false,done:false});
+  save();renderList();toast('장볼 목록에 추가했어요 🛒');
+}
+function basketText(){
+  var left=S.list.filter(function(x){return !x.done;});
+  if(!left.length)return null;
+  var groups={};STORES.forEach(function(s){groups[s]=[];});
+  left.forEach(function(x){(groups[x.store]||groups['기타']).push(x);});
+  var t='🛒 토비에게 장바구니 담기 요청\n\n아래 품목을 장바구니에 담아 주세요!\n';
+  STORES.forEach(function(s){
+    if(groups[s].length){t+='\n['+s+']\n';groups[s].forEach(function(x){t+='· '+x.name+(x.memo?' — '+x.memo:'')+'\n';});}
+  });
+  return t;
+}
+function copyBasket(){
+  var t=basketText();
+  if(!t){toast('남은 품목이 없어요 🎉');return;}
+  var ok=function(){toast('복사 완료! 토비 채팅창에 붙여넣어 주세요 🛒');};
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(t).then(ok,function(){fallbackCopy(t);});
+  }else{fallbackCopy(t);}
+}
+function fallbackCopy(t){
+  openModal('<h3>복사할 요청 문구</h3><textarea id="copyText" readonly>'+esc(t)+'</textarea>'
+    +'<div class="mrow"><button class="btn ghost" data-act="closeModal">닫기</button><button class="btn primary" data-act="copySel">복사</button></div>');
+}
+function copySel(){
+  var ta=document.getElementById('copyText');
+  ta.focus();ta.select();
+  try{document.execCommand('copy');closeModal();toast('복사 완료! 토비 채팅창에 붙여넣어 주세요 🛒');}
+  catch(e){toast('길게 눌러 직접 복사해 주세요');}
+}
+function setStore(s){document.getElementById('lStore').value=s;}
+function addLedger(){
+  var item=document.getElementById('lItem').value.trim();
+  var amt=parseFloat(document.getElementById('lAmt').value);
+  if(!item){toast('품목명을 입력해 주세요');return;}
+  if(isNaN(amt)||amt<=0){toast('금액을 입력해 주세요');return;}
+  var qty=Math.max(1,Math.round(parseFloat(document.getElementById('lQty').value)||1));
+  var cat=document.getElementById('lCat').value;
+  var e={id:uid(),date:document.getElementById('lDate').value||todayISO(),store:document.getElementById('lStore').value.trim()||'기타',item:item,cat:cat,amount:Math.round(amt),qty:qty,online:true};
+  S.ledger.push(e);
+  if(!document.getElementById('lMerge').checked){
+    S.inv.push({id:uid(),name:item,spec:'',price:Math.round(amt/qty),cat:CATS.indexOf(cat)>=0?cat:'기타',star:false,owned:true});
+  }
+  save();renderAll();toast('가계부에 추가했어요 ✓');
+}
+function askReset(){
+  openModal('<h3>처음 상태로 되돌릴까요?</h3><p class="dim">지금까지 체크·수정·입력한 내용이 모두 지워지고 기본 샘플 상태로 돌아갑니다.</p>'
+    +'<div class="mrow"><button class="btn ghost" data-act="closeModal">취소</button><button class="btn terra" data-act="doReset">초기화</button></div>');
+}
+function doReset(){
+  try{localStorage.removeItem(KEY);}catch(e){}
+  S=JSON.parse(JSON.stringify(SEED));invFilter='전체';invQuery='';closeModal();renderAll();toast('초기화했어요 ↺');
+}
+
+var ACTIONS={
+  switchTab:switchTab,toggleMeal:toggleMeal,editMeal:editMeal,saveMeal:saveMeal,
+  toggleInv:toggleInv,starInv:starInv,setInvFilter:setInvFilter,
+  starList:starList,checkList:checkList,delList:delList,addList:addList,
+  copyBasket:copyBasket,copySel:copySel,addLedger:addLedger,delLedger:delLedger,
+  setStore:setStore,askReset:askReset,doReset:doReset,closeModal:closeModal
+};
+document.addEventListener('click',function(e){
+  var el=e.target.closest('[data-act]');
+  if(!el)return;
+  var act=el.getAttribute('data-act'),id=el.getAttribute('data-id');
+  if(ACTIONS[act])ACTIONS[act](id,el);
+});
+
+S=load();
+renderAll();
+switchTab('meals');
+</script>
+</body>
+</html>
